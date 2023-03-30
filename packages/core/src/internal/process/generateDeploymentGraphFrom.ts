@@ -4,9 +4,9 @@ import type {
   IDeploymentGraph,
 } from "../types/deploymentGraph";
 
-import { DeploymentBuilder } from "../../dsl/DeploymentBuilder";
 import { IgnitionError } from "../../errors";
 import { Module, ModuleDict } from "../../types/module";
+import { DeploymentBuilder } from "../dsl/DeploymentBuilder";
 import { assertModuleReturnTypes } from "../utils/guards";
 
 export function generateDeploymentGraphFrom<T extends ModuleDict>(

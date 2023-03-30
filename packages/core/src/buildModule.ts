@@ -1,10 +1,10 @@
-import type { Module, ModuleDict } from "../types/module";
+import type { IDeploymentBuilder } from "./types/dsl";
+import type { Module, ModuleDict } from "./types/module";
 
 import {
   assertFunctionParam,
   assertStringParam,
-} from "../internal/utils/paramAssertions";
-import { IDeploymentBuilder } from "../types/dsl";
+} from "./internal/utils/paramAssertions";
 
 /**
  * A factory that builds a deployment module given configuration function that

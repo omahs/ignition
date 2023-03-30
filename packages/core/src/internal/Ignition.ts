@@ -1,38 +1,39 @@
 import type {
-  UpdateUiAction,
-  DeploymentResult as InternalDeploymentResult,
-} from "./internal/types/deployment";
-import type {
-  ExecutionResultsAccumulator,
-  ExecutionVisitResult,
-} from "./internal/types/executionGraph";
-import type { ICommandJournal } from "./internal/types/journal";
-import type {
   Ignition as IgnitionInterface,
   DeploymentResultT,
   IgnitionConstructorArgs,
   IgnitionDeployOptions,
-} from "./types/ignition";
-import type { Module, ModuleDict } from "./types/module";
-import type { IgnitionPlan } from "./types/plan";
+} from "../types/ignition";
+import type { Module, ModuleDict } from "../types/module";
+import type { IgnitionPlan } from "../types/plan";
 import type {
   ContractInfo,
   SerializedDeploymentResult,
-} from "./types/serialization";
+} from "../types/serialization";
+import type {
+  UpdateUiAction,
+  DeploymentResult as InternalDeploymentResult,
+} from "./types/deployment";
+import type {
+  ExecutionResultsAccumulator,
+  ExecutionVisitResult,
+} from "./types/executionGraph";
+import type { ICommandJournal } from "./types/journal";
 
 import setupDebug from "debug";
 
-import { IgnitionError } from "./errors";
-import { Deployment } from "./internal/deployment/Deployment";
-import { execute } from "./internal/execution/execute";
-import { loadJournalInto } from "./internal/execution/loadJournalInto";
-import { hashExecutionGraph } from "./internal/execution/utils";
-import { NoopCommandJournal } from "./internal/journal/NoopCommandJournal";
-import { generateDeploymentGraphFrom } from "./internal/process/generateDeploymentGraphFrom";
-import { transformDeploymentGraphToExecutionGraph } from "./internal/process/transformDeploymentGraphToExecutionGraph";
-import { Services } from "./internal/types/services";
-import { resolveProxyValue } from "./internal/utils/proxy";
-import { validateDeploymentGraph } from "./internal/validation/validateDeploymentGraph";
+import { IgnitionError } from "../errors";
+
+import { Deployment } from "./deployment/Deployment";
+import { execute } from "./execution/execute";
+import { loadJournalInto } from "./execution/loadJournalInto";
+import { hashExecutionGraph } from "./execution/utils";
+import { NoopCommandJournal } from "./journal/NoopCommandJournal";
+import { generateDeploymentGraphFrom } from "./process/generateDeploymentGraphFrom";
+import { transformDeploymentGraphToExecutionGraph } from "./process/transformDeploymentGraphToExecutionGraph";
+import { Services } from "./types/services";
+import { resolveProxyValue } from "./utils/proxy";
+import { validateDeploymentGraph } from "./validation/validateDeploymentGraph";
 
 const log = setupDebug("ignition:main");
 

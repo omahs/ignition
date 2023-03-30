@@ -20,15 +20,24 @@ import type {
   RequiredParameter,
   SendFuture,
   Virtual,
-} from "../types/future";
-import type { Artifact } from "../types/hardhat";
-import type { Module, ModuleCache, ModuleDict } from "../types/module";
+} from "../../types/future";
+import type { Artifact } from "../../types/hardhat";
+import type { Module, ModuleCache, ModuleDict } from "../../types/module";
 
 import { BigNumber, ethers } from "ethers";
 import hash from "object-hash";
 
-import { IgnitionError, IgnitionValidationError } from "../errors";
-import { addEdge, ensureVertex } from "../internal/graph/adjacencyList";
+import { IgnitionError, IgnitionValidationError } from "../../errors";
+import {
+  AwaitOptions,
+  CallOptions,
+  ContractOptions,
+  IDeploymentBuilder,
+  InternalParamValue,
+  SendOptions,
+  UseModuleOptions,
+} from "../../types/dsl";
+import { addEdge, ensureVertex } from "../graph/adjacencyList";
 import {
   ArtifactContractDeploymentVertex,
   ArtifactLibraryDeploymentVertex,
@@ -44,7 +53,7 @@ import {
   ScopeData,
   SendVertex,
   VirtualVertex,
-} from "../internal/types/deploymentGraph";
+} from "../types/deploymentGraph";
 import {
   assertModuleReturnTypes,
   isArtifact,
@@ -52,17 +61,8 @@ import {
   isContract,
   isDependable,
   isParameter,
-} from "../internal/utils/guards";
-import { resolveProxyDependency } from "../internal/utils/proxy";
-import {
-  AwaitOptions,
-  CallOptions,
-  ContractOptions,
-  IDeploymentBuilder,
-  InternalParamValue,
-  SendOptions,
-  UseModuleOptions,
-} from "../types/dsl";
+} from "../utils/guards";
+import { resolveProxyDependency } from "../utils/proxy";
 
 import { DeploymentGraph } from "./DeploymentGraph";
 import { ScopeStack } from "./ScopeStack";

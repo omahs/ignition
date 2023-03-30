@@ -6,7 +6,7 @@ import { IgnitionPlan } from "./plan";
 /**
  * The type of the services that Ignition uses. Soon to be made private.
  *
- * @internal
+ * @alpha
  */
 export type ServicesT = unknown;
 
@@ -27,7 +27,7 @@ export type UpdateUiActionT = unknown;
 /**
  * The setup options for Ignition
  *
- * @internal
+ * @alpha
  */
 export interface IgnitionConstructorArgs {
   /**

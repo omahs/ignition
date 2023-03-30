@@ -3,8 +3,8 @@
 import { assert } from "chai";
 import { BigNumber, ethers } from "ethers";
 
-import { Ignition } from "../src/Ignition";
-import { buildModule } from "../src/dsl/buildModule";
+import { buildModule } from "../src/buildModule";
+import { Ignition } from "../src/internal/Ignition";
 import { DeploymentResult } from "../src/internal/types/deployment";
 import { Services } from "../src/internal/types/services";
 import { Artifact } from "../src/types/hardhat";
