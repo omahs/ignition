@@ -1,8 +1,4 @@
-import type {
-  DeploymentResult,
-  IgnitionDeployOptions,
-  UpdateUiAction,
-} from "./internal/types/deployment";
+import type { UpdateUiAction } from "./internal/types/deployment";
 import type {
   ExecutionResultsAccumulator,
   ExecutionVisitResult,
@@ -19,6 +15,7 @@ import setupDebug from "debug";
 
 import { IgnitionError } from "./errors";
 import { Deployment } from "./internal/deployment/Deployment";
+import { DeploymentResult as InternalDeploymentResult } from "./internal/types/deployment";
 import { execute } from "./internal/execution/execute";
 import { loadJournalInto } from "./internal/execution/loadJournalInto";
 import { hashExecutionGraph } from "./internal/execution/utils";
@@ -28,16 +25,22 @@ import { transformDeploymentGraphToExecutionGraph } from "./internal/process/tra
 import { Services } from "./internal/types/services";
 import { resolveProxyValue } from "./internal/utils/proxy";
 import { validateDeploymentGraph } from "./internal/validation/validateDeploymentGraph";
-import { IgnitionConstructorArgs } from "./types/ignition";
+import {
+  DeploymentResultT,
+  IgnitionConstructorArgs,
+  IgnitionDeployOptions,
+} from "./types/ignition";
 
 const log = setupDebug("ignition:main");
+
+import type { Ignition as IgnitionInterface } from "./types/ignition";
 
 /**
  * The entry point for deploying using _Ignition_.
  *
  * @internal
  */
-export class Ignition {
+export class Ignition implements IgnitionInterface {
   private _services: Services;
   private _uiRenderer: UpdateUiAction;
   private _journal: ICommandJournal;
@@ -50,9 +53,9 @@ export class Ignition {
    * @internal
    */
   constructor({ services, uiRenderer, journal }: IgnitionConstructorArgs) {
-    this._services = services;
-    this._uiRenderer = uiRenderer ?? (() => {});
-    this._journal = journal ?? new NoopCommandJournal();
+    this._services = services as Services;
+    this._uiRenderer = (uiRenderer as UpdateUiAction) ?? (() => {});
+    this._journal = (journal as ICommandJournal) ?? new NoopCommandJournal();
   }
 
   /**
@@ -70,7 +73,7 @@ export class Ignition {
   public async deploy<T extends ModuleDict>(
     ignitionModule: Module<T>,
     options: IgnitionDeployOptions
-  ): Promise<DeploymentResult<T>> {
+  ): Promise<DeploymentResultT<T>> {
     log(`Start deploy`);
 
     const deployment = new Deployment(
@@ -248,7 +251,7 @@ export class Ignition {
   private _buildOutputFrom<T extends ModuleDict>(
     executionResult: ExecutionVisitResult,
     moduleOutputs: T
-  ): DeploymentResult<T> {
+  ): DeploymentResultT<T> {
     if (executionResult._kind === "failure") {
       return executionResult;
     }
@@ -295,7 +298,7 @@ export class Ignition {
 
   private _checkSafeDeployment(
     deployment: Deployment
-  ): DeploymentResult | { _kind: "success" } {
+  ): InternalDeploymentResult | { _kind: "success" } {
     if (deployment.state.details.force) {
       return { _kind: "success" };
     }
