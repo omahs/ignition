@@ -10,6 +10,7 @@ import { Artifact } from "../../src/types/hardhat";
 import { Providers } from "../../src/types/providers";
 import { getMockServices } from "../helpers";
 import { MemoryCommandJournal } from "../util/MemoryCommandJournal";
+import { DeploymentResult } from "../../src/internal/types/deployment";
 
 describe("Rerunning execution", () => {
   const tokenArtifact: Artifact = {
@@ -112,7 +113,10 @@ describe("Rerunning execution", () => {
 
     it("should record complete on first run", async () => {
       // Act
-      const result = await ignition.deploy(myModule, {} as any);
+      const result = (await ignition.deploy(
+        myModule,
+        {} as any
+      )) as DeploymentResult;
 
       // Assert
       assert.equal(result._kind, "success");
@@ -126,7 +130,10 @@ describe("Rerunning execution", () => {
       await ignition.deploy(myModule, {} as any);
 
       // Act
-      const redeployResult = await ignition.deploy(myModule, {} as any);
+      const redeployResult = (await ignition.deploy(
+        myModule,
+        {} as any
+      )) as DeploymentResult;
 
       // Assert
       assert.equal(redeployResult._kind, "success");
@@ -154,9 +161,9 @@ describe("Rerunning execution", () => {
       await ignition.deploy(myModule, {} as any);
 
       // Act
-      const redeployResult = await ignition.deploy(myModule, {
+      const redeployResult = (await ignition.deploy(myModule, {
         force: true,
-      } as any);
+      } as any)) as DeploymentResult;
 
       // Assert
       assert.equal(redeployResult._kind, "success");
@@ -244,7 +251,10 @@ describe("Rerunning execution", () => {
 
     it("should record hold on first run", async () => {
       // Act
-      const result = await ignition.deploy(myModule, {} as any);
+      const result = (await ignition.deploy(
+        myModule,
+        {} as any
+      )) as DeploymentResult;
 
       // Assert
       assert.equal(result._kind, "hold");
@@ -265,7 +275,10 @@ describe("Rerunning execution", () => {
       await ignition.deploy(myModule, {} as any);
 
       // Act
-      const redeployResult = await ignition.deploy(myModule, {} as any);
+      const redeployResult = (await ignition.deploy(
+        myModule,
+        {} as any
+      )) as DeploymentResult;
 
       // Assert
       // only the original two transactions, no more
@@ -312,7 +325,10 @@ describe("Rerunning execution", () => {
         journal: new MemoryCommandJournal(),
       });
 
-      const result = await ignition.deploy(myModule, {} as any);
+      const result = (await ignition.deploy(
+        myModule,
+        {} as any
+      )) as DeploymentResult;
 
       assert.equal(result._kind, "hold");
     });
@@ -384,7 +400,10 @@ describe("Rerunning execution", () => {
 
     it("should record fail on first run", async () => {
       // Act
-      const result = await ignition.deploy(myModule, {} as any);
+      const result = (await ignition.deploy(
+        myModule,
+        {} as any
+      )) as DeploymentResult;
 
       // Assert
       assert.equal(result._kind, "failure");
@@ -410,7 +429,10 @@ describe("Rerunning execution", () => {
       await ignition.deploy(myModule, {} as any);
 
       // Act
-      const redeployResult = await ignition.deploy(myModule, {} as any);
+      const redeployResult = (await ignition.deploy(
+        myModule,
+        {} as any
+      )) as DeploymentResult;
 
       // Assert
       // the second transaction is successfully sent

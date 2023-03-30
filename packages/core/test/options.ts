@@ -3,7 +3,10 @@
 import { assert } from "chai";
 import { BigNumber, ethers } from "ethers";
 
-import { buildModule, Ignition } from "../src";
+import { Ignition } from "../src/Ignition";
+import { buildModule } from "../src/dsl/buildModule";
+import { DeploymentResult } from "../src/internal/types/deployment";
+import { Services } from "../src/internal/types/services";
 import { Artifact } from "../src/types/hardhat";
 
 import { getMockServices } from "./helpers";
@@ -93,7 +96,7 @@ describe("deploy options", () => {
             return "0xb75381e904154b34814d387c29e1927449edd98d30f5e310f25e9b1f19b0b077";
           },
         },
-      },
+      } as Services,
     });
 
     const module = buildModule("Example", (m) => {
@@ -102,7 +105,7 @@ describe("deploy options", () => {
       return {};
     });
 
-    const result = await ignition.deploy(module, {
+    const result = (await ignition.deploy(module, {
       maxRetries: 1,
       gasPriceIncrementPerRetry: BigNumber.from(1000),
       pollingInterval: 4,
@@ -110,7 +113,7 @@ describe("deploy options", () => {
       networkName: "test-network",
       force: false,
       txPollingInterval: 4,
-    });
+    })) as DeploymentResult;
 
     assert.equal(result._kind, "success");
   });
