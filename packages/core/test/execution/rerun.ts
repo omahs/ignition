@@ -6,11 +6,11 @@ import { ethers } from "ethers";
 import { Ignition } from "../../src/Ignition";
 import { buildModule } from "../../src/dsl/buildModule";
 import { TransactionsService } from "../../src/internal/services/TransactionsService";
+import { DeploymentResult } from "../../src/internal/types/deployment";
 import { Artifact } from "../../src/types/hardhat";
 import { Providers } from "../../src/types/providers";
 import { getMockServices } from "../helpers";
 import { MemoryCommandJournal } from "../util/MemoryCommandJournal";
-import { DeploymentResult } from "../../src/internal/types/deployment";
 
 describe("Rerunning execution", () => {
   const tokenArtifact: Artifact = {

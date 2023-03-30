@@ -1,4 +1,5 @@
 import type { BigNumber } from "ethers";
+
 import { Module, ModuleDict } from "./module";
 import { IgnitionPlan } from "./plan";
 
@@ -69,7 +70,7 @@ export interface IgnitionDeployOptions {
  *
  * @alpha
  */
-export type DeploymentResultT<ModuleT extends ModuleDict = ModuleDict> =
+export type DeploymentResultT<_ModuleT extends ModuleDict = ModuleDict> = // eslint-disable-line @typescript-eslint/naming-convention
   unknown;
 
 /**
@@ -104,7 +105,7 @@ export interface Ignition {
    *
    * @internal
    */
-  plan<T extends ModuleDict>(
-    deploymentModule: Module<T>
+  plan<ModuleT extends ModuleDict>(
+    deploymentModule: Module<ModuleT>
   ): Promise<IgnitionPlan>;
 }

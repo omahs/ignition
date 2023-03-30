@@ -1,9 +1,18 @@
-import type { UpdateUiAction } from "./internal/types/deployment";
+import type {
+  UpdateUiAction,
+  DeploymentResult as InternalDeploymentResult,
+} from "./internal/types/deployment";
 import type {
   ExecutionResultsAccumulator,
   ExecutionVisitResult,
 } from "./internal/types/executionGraph";
 import type { ICommandJournal } from "./internal/types/journal";
+import type {
+  Ignition as IgnitionInterface,
+  DeploymentResultT,
+  IgnitionConstructorArgs,
+  IgnitionDeployOptions,
+} from "./types/ignition";
 import type { Module, ModuleDict } from "./types/module";
 import type { IgnitionPlan } from "./types/plan";
 import type {
@@ -15,7 +24,6 @@ import setupDebug from "debug";
 
 import { IgnitionError } from "./errors";
 import { Deployment } from "./internal/deployment/Deployment";
-import { DeploymentResult as InternalDeploymentResult } from "./internal/types/deployment";
 import { execute } from "./internal/execution/execute";
 import { loadJournalInto } from "./internal/execution/loadJournalInto";
 import { hashExecutionGraph } from "./internal/execution/utils";
@@ -25,15 +33,8 @@ import { transformDeploymentGraphToExecutionGraph } from "./internal/process/tra
 import { Services } from "./internal/types/services";
 import { resolveProxyValue } from "./internal/utils/proxy";
 import { validateDeploymentGraph } from "./internal/validation/validateDeploymentGraph";
-import {
-  DeploymentResultT,
-  IgnitionConstructorArgs,
-  IgnitionDeployOptions,
-} from "./types/ignition";
 
 const log = setupDebug("ignition:main");
-
-import type { Ignition as IgnitionInterface } from "./types/ignition";
 
 /**
  * The entry point for deploying using _Ignition_.
