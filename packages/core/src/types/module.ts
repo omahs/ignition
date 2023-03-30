@@ -38,11 +38,21 @@ export interface Module<T extends ModuleDict> {
   action: (builder: IDeploymentBuilder) => T;
 }
 
+/**
+ * The data of a module.
+ *
+ * @alpha
+ */
 export interface ModuleData {
   result: Virtual & ModuleDict;
   optionsHash: string;
 }
 
+/**
+ * A cache of module data.
+ *
+ * @alpha
+ */
 export interface ModuleCache {
   [label: string]: ModuleData;
 }

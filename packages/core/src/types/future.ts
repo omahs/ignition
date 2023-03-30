@@ -279,6 +279,11 @@ export type DeploymentGraphFuture =
   | ParameterFuture
   | EventParamFuture;
 
+/**
+ * A dictionary of Futures.
+ *
+ * @alpha
+ */
 export interface FutureDict {
   [key: string]: DeploymentGraphFuture;
 }
