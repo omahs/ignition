@@ -45,7 +45,9 @@ export class Deployment {
   }
 
   public async load(
-    commandStream: AsyncGenerator<DeployStateExecutionCommand, void, unknown>
+    commandStream:
+      | AsyncGenerator<DeployStateExecutionCommand, void, unknown>
+      | DeployStateExecutionCommand[]
   ) {
     log("Loading from journal");
 
