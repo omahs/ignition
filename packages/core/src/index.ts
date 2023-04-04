@@ -123,6 +123,11 @@ export type {
   IgnitionCreationArgs,
 } from "./types/ignition";
 export type {
+  ModuleInfoData,
+  NetworkInfoData,
+  ContractInfoData,
+} from "./types/info";
+export type {
   Module,
   ModuleDict,
   ModuleParams,

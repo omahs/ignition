@@ -35,6 +35,11 @@ import {
   IgnitionConstructorArgs,
   IgnitionCreationArgs,
 } from "./types/ignition";
+import {
+  ModuleInfoData,
+  NetworkInfoData,
+  ContractInfoData,
+} from "./types/info";
 
 const log = setupDebug("ignition:main");
 
@@ -236,7 +241,7 @@ export class Ignition {
     };
   }
 
-  public async info(moduleName: string): Promise<Deployment[]> {
+  public async info(moduleName: string): Promise<ModuleInfoData[]> {
     log(`Start info`);
 
     const journalData: {
@@ -274,7 +279,44 @@ export class Ignition {
       deployments.push(deployment);
     }
 
-    return deployments;
+    const moduleInfoData: { [moduleName: string]: ModuleInfoData } = {};
+    for (const deployment of deployments) {
+      const {
+        networkName,
+        chainId,
+        moduleName: deploymentName,
+      } = deployment.state.details;
+
+      const contracts: ContractInfoData[] = [];
+      for (const vertex of Object.values(deployment.state.execution.vertexes)) {
+        if (
+          vertex.status === "COMPLETED" &&
+          "bytecode" in vertex.result.result &&
+          "value" in vertex.result.result
+        ) {
+          contracts.push({
+            contractName: vertex.result.result.name,
+            status: "deployed",
+            address: vertex.result.result.address,
+          });
+        }
+      }
+
+      if (contracts.length > 0) {
+        const networkInfo: NetworkInfoData = {
+          networkName,
+          chainId,
+          contracts,
+        };
+        moduleInfoData[deploymentName] ??= {
+          moduleName: deploymentName,
+          networks: [],
+        };
+        moduleInfoData[deploymentName].networks.push(networkInfo);
+      }
+    }
+
+    return Object.values(moduleInfoData);
   }
 
   private async _constructExecutionGraphFrom<T extends ModuleDict>(
